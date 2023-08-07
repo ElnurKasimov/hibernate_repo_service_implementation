@@ -1,44 +1,76 @@
 package com.softserve.itacademy.service.impl;
 
+import com.softserve.itacademy.exceptions.DuplicateTaskException;
+import com.softserve.itacademy.exceptions.TaskNotFoundException;
 import com.softserve.itacademy.model.Task;
 import com.softserve.itacademy.repository.TaskRepository;
 import com.softserve.itacademy.service.TaskService;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
+import java.util.function.Supplier;
 
+import static java.util.Objects.requireNonNull;
+
+@Validated
 @Service
 public class TaskServiceImpl implements TaskService {
 
+    private TaskRepository taskRepository;
+
+    public TaskServiceImpl(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
+
+    private Supplier<TaskNotFoundException> notFoundExceptionSupplier
+            = () -> new TaskNotFoundException("There is no task with this id");
+
+    @Valid
     @Override
     public Task create(Task task) {
-        return null;
+        requireNonNull(task.getState());
+        requireNonNull(task.getToDo());
+        requireNonNull(task.getName());
+
+        if (!taskRepository.existsById(task.getId())) {
+            taskRepository.save(task);
+        } else {
+            throw new DuplicateTaskException("Task with this id already exists");
+        }
+        return task;
+
+//        taskRepository.save(task);
+//        return task;
     }
 
     @Override
     public Task readById(long id) {
-        return null;
+        return taskRepository.findById(id).orElseThrow(notFoundExceptionSupplier);
     }
 
+    @Valid
     @Override
     public Task update(Task task) {
-        return null;
+        taskRepository.findById(task.getId()).orElseThrow(notFoundExceptionSupplier);
+        taskRepository.save(task);
+        return task;
     }
 
     @Override
     public void delete(long id) {
-
+        taskRepository.findById(id).orElseThrow(notFoundExceptionSupplier);
+        taskRepository.deleteById(id);
     }
 
     @Override
     public List<Task> getAll() {
-        return null;
+        return taskRepository.findAll();
     }
 
     @Override
     public List<Task> getByTodoId(long todoId) {
-        return null;
+        return taskRepository.findByToDoId(todoId);
     }
 }
