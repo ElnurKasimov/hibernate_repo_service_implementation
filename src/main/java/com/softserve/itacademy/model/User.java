@@ -62,77 +62,80 @@ public class User  {
         inverseJoinColumns = @JoinColumn(name = "todo_id"))
     private List<ToDo> otherTodos;
 
+    @Generated
     public User() {
     }
-
+    @Generated
     public long getId() {
         return id;
     }
-
+    @Generated
     public void setId(long id) {
         this.id = id;
     }
-
+    @Generated
     public String getFirstName() {
         return firstName;
     }
-
+    @Generated
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    @Generated
     public String getLastName() {
         return lastName;
     }
-
+    @Generated
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    @Generated
     public String getEmail() {
         return email;
     }
-
+    @Generated
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @Generated
     public String getPassword() {
         return password;
     }
-
+    @Generated
     public void setPassword(String password) {
         this.password = password;
     }
-
+    @Generated
     public Role getRole() {
         return role;
     }
-
+    @Generated
     public void setRole(Role role) {
         this.role = role;
     }
-
+    @Generated
     public List<ToDo> getMyTodos() {
         return myTodos;
     }
-
+    @Generated
     public void setMyTodos(List<ToDo> myTodos) {
         this.myTodos = myTodos;
     }
-
+    @Generated
     public List<ToDo> getOtherTodos() {
         return otherTodos;
     }
-
+    @Generated
     public void setOtherTodos(List<ToDo> todos) {
         this.otherTodos = todos;
     }
-
+    @Generated
     public String getUsername() {
         return email;
     }
 
+
+    @Generated
     @Override
     public String toString() {
         return "User {" +
