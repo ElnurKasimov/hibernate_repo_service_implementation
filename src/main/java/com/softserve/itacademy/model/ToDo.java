@@ -46,55 +46,56 @@ public class ToDo {
             joinColumns = @JoinColumn(name = "todo_id"),
             inverseJoinColumns = @JoinColumn(name = "collaborator_id"))
     private List<User> collaborators;
-
+    @Generated
     public long getId() {
         return id;
     }
-
+    @Generated
     public void setId(long id) {
         this.id = id;
     }
-
+    @Generated
     public String getTitle() {
         return title;
     }
-
+    @Generated
     public void setTitle(String title) {
         this.title = title;
     }
-
+    @Generated
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
-
+    @Generated
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
+    @Generated
     public User getOwner() {
         return owner;
     }
-
+    @Generated
     public void setOwner(User owner) {
         this.owner = owner;
     }
-
+    @Generated
     public List<Task> getTasks() {
         return tasks;
     }
-
+    @Generated
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-
+    @Generated
     public List<User> getCollaborators() {
         return collaborators;
     }
-
+    @Generated
     public void setCollaborators(List<User> users) {
         this.collaborators = users;
     }
 
+    @Generated
     @Override
     public String toString() {
         return "ToDo {" +

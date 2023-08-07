@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-// implement method for retrieving all Todos by userId
 @Repository
 public interface ToDoRepository extends JpaRepository<ToDo, Long> {
+    public List<ToDo> findById(long userId);
 }

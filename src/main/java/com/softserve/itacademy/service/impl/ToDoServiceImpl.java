@@ -3,6 +3,7 @@ package com.softserve.itacademy.service.impl;
 import com.softserve.itacademy.model.ToDo;
 import com.softserve.itacademy.repository.ToDoRepository;
 import com.softserve.itacademy.service.ToDoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,20 +14,29 @@ import java.util.Optional;
 
 @Service
 public class ToDoServiceImpl implements ToDoService {
+    private ToDoRepository toDoRepository;
+
+    @Autowired
+    public ToDoServiceImpl(ToDoRepository toDoRepository) {
+        this.toDoRepository = toDoRepository;
+    }
 
 
     @Override
     public ToDo create(ToDo todo) {
+
         return null;
     }
 
     @Override
     public ToDo readById(long id) {
+
         return null;
     }
 
     @Override
     public ToDo update(ToDo todo) {
+
         return null;
     }
 
@@ -37,11 +47,13 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public List<ToDo> getAll() {
+
         return null;
     }
 
     @Override
     public List<ToDo> getByUserId(long userId) {
+
         return null;
     }
 }
