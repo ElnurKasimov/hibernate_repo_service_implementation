@@ -50,8 +50,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task update(Task task) {
         taskRepository.findById(task.getId()).orElseThrow(notFoundExceptionSupplier);
-        taskRepository.save(task);
-        return task;
+        return taskRepository.save(task);
     }
 
     @Override
