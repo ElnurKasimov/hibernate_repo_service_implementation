@@ -9,11 +9,8 @@ import com.softserve.itacademy.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ToDoServiceImpl implements ToDoService {
@@ -114,6 +111,6 @@ public class ToDoServiceImpl implements ToDoService {
                 .anyMatch(id->id == userId);
         if( ! isUserIdPresent)  throw new UserNotFoundException(
                 "There is no user with id " + userId);
-        return toDoRepository.findByUserId(userId);
+        return toDoRepository.findByOwner(userId);
     }
 }
