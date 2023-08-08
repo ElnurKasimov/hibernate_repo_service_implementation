@@ -105,8 +105,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long id) {
-        User userToDelete = userRepository.findById(id).orElseThrow(
-          () -> new UserNotFoundException("There is no user with this id."));
+        User userToDelete = readById(id);
         userRepository.deleteById(id);
     }
 
@@ -116,10 +115,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getByEmail(String email) {
-        String existingEmail = getAll().stream()
+        boolean isEmailExist = getAll().stream()
                 .map(User::getEmail)
-                .findAny().orElseThrow(() -> {throw new UserNotFoundException(
-                        "There is no user with email " + email); } );
-        return userRepository.findByEmail(existingEmail);
+                .anyMatch(e->e.equals(email));
+        if( ! isEmailExist)  throw new UserNotFoundException(
+                        "There is no user with email " + email);
+        return userRepository.findByEmail(email);
     }
 }

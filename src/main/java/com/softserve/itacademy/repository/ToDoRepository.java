@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ToDoRepository extends JpaRepository<ToDo, Long> {
-    public List<ToDo> findById(long userId);
+    public List<ToDo> findByUserId(long userId);
 }
