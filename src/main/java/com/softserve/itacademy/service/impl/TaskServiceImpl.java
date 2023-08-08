@@ -35,14 +35,10 @@ public class TaskServiceImpl implements TaskService {
         requireNonNull(task.getName());
 
         if (!taskRepository.existsById(task.getId())) {
-            taskRepository.save(task);
+            return taskRepository.save(task);
         } else {
             throw new DuplicateTaskException("Task with this id already exists");
         }
-        return task;
-
-//        taskRepository.save(task);
-//        return task;
     }
 
     @Override
