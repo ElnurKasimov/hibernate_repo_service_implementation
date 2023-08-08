@@ -115,10 +115,10 @@ public class UserServiceImpl implements UserService {
     }
 
     public User getByEmail(String email) {
-        boolean isEmailExist = getAll().stream()
+        boolean isEmailPresent = getAll().stream()
                 .map(User::getEmail)
                 .anyMatch(e->e.equals(email));
-        if( ! isEmailExist)  throw new UserNotFoundException(
+        if( ! isEmailPresent) throw new UserNotFoundException(
                         "There is no user with email " + email);
         return userRepository.findByEmail(email);
     }

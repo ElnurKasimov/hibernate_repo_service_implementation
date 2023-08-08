@@ -1,6 +1,7 @@
 package com.softserve.itacademy.service.impl;
 
 import com.softserve.itacademy.exceptions.*;
+import com.softserve.itacademy.model.Task;
 import com.softserve.itacademy.model.ToDo;
 import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.repository.ToDoRepository;
@@ -54,8 +55,46 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public ToDo update(ToDo todo) {
-
-        return null;
+        // принимается за основу такая логика:
+        // если передается todo с полем null, то считается что это поле остается в том состоянии, в каком оно сохранено в базе
+        // title уникальный по всей базе
+        ToDo todoToUpdate = toDoRepository.findById(todo.getId()).orElse(null);
+        if (todoToUpdate != null) {
+            if (todo.getTitle() != null) {
+                boolean isTitlePresent = getAll().stream()
+                        .map(ToDo::getTitle)
+                        .anyMatch(title -> title.equals(todo.getTitle()));
+                if (isTitlePresent) {
+                    throw new DuplicateTitleException(
+                            "Title " + todo.getTitle() + " is already present");
+                }
+                todoToUpdate.setTitle(todo.getTitle());
+            }
+            if (todo.getCreatedAt() != null) todoToUpdate.setCreatedAt(todo.getCreatedAt());
+            if (todo.getOwner() != null) todoToUpdate.setOwner(todo.getOwner());
+            if (todo.getTasks() != null) {
+                List<Task> listFromDB = todoToUpdate.getTasks();
+                List<Task> listToUpdate = todo.getTasks();
+                for (Task task : listToUpdate) {
+                    if (!listFromDB.contains(task)) listFromDB.add(task);
+                }
+                listFromDB.removeIf(task -> !listToUpdate.contains(task));
+                todoToUpdate.setTasks(listFromDB);
+            }
+            if (todo.getCollaborators() != null) {
+                List<User> listFromDB = todoToUpdate.getCollaborators();
+                List<User> listToUpdate = todo.getCollaborators();
+                for (User user : listToUpdate) {
+                    if (!listFromDB.contains(user)) listFromDB.add(user);
+                }
+                listFromDB.removeIf(user -> !listToUpdate.contains(user));
+                todoToUpdate.setCollaborators(listFromDB);
+            }
+            toDoRepository.save(todoToUpdate);
+        } else {
+            throw new NullToDoException("todo for update shouldn't be null.");
+        }
+        return todoToUpdate;
     }
 
     @Override
@@ -70,10 +109,10 @@ public class ToDoServiceImpl implements ToDoService {
 
     @Override
     public List<ToDo> getByUserId(long userId) {
-        boolean isIdExist = getAll().stream()
+        boolean isUserIdPresent = getAll().stream()
                 .map(ToDo::getId)
                 .anyMatch(id->id == userId);
-        if( ! isIdExist)  throw new UserNotFoundException(
+        if( ! isUserIdPresent)  throw new UserNotFoundException(
                 "There is no user with id " + userId);
         return toDoRepository.findByUserId(userId);
     }
