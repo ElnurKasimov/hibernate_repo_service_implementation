@@ -15,7 +15,6 @@ import java.util.List;
 public class User  {
 
     private static final String NAME_REGEXP = "[A-Z][a-z]+(-[A-Z][a-z]+){0,1}";
-
     @Id
     @GeneratedValue(generator = "sequence-generator")
     @GenericGenerator(
